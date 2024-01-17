@@ -1,6 +1,6 @@
 ﻿name: build and test
-run-name: ${{ github.actor }} is building and testing Tarkov Log Parser
-on: [push]
+run-name: ${{ github.ref_name }} is building and testing Tarkov Log Parser
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
