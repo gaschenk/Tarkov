@@ -1,0 +1,19 @@
+﻿name: build and test
+run-name: ${{ github.actor }} is building and testing Tarkov Log Parser
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
+          cache: true
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: |
+          dotnet build Tarkov.LogParser -c Release
+          dotnet test Tarkov.LogParser.Tests -c Release
