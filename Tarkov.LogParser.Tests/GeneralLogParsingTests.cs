@@ -130,7 +130,7 @@ public class GeneralLogParsingTests : IDisposable
     public void TestMultipleLogEntries()
     {
         LogParser logParser = new();
-        var multiLineLogEntries = string.Join(Environment.NewLine,
+        var multiLineLogEntries = string.Join("\r\n",
             _multiLineEntries.ToArray() ?? throw new InvalidOperationException());
         var entries = logParser.ParseLogEntries(multiLineLogEntries);
         entries.Should().BeEquivalentTo(_multiLineLogEntries);
