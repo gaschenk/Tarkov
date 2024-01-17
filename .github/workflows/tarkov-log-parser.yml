@@ -15,4 +15,4 @@ jobs:
       - name: Build
         run: |
           dotnet build Tarkov.LogParser -c Release
-          dotnet test Tarkov.LogParser.Tests -c Release
+          dotnet test Tarkov.LogParser.Tests
