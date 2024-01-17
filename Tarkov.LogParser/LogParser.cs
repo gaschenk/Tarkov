@@ -6,7 +6,7 @@ namespace Tarkov.LogParser;
 
 public class LogParser
 {
-    public LogEntry[] ParseLogEntries(string multiLineLogEntries)
+    public IEnumerable<LogEntry> ParseLogEntries(string multiLineLogEntries)
     {
         using var reader =
             new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(multiLineLogEntries)));
