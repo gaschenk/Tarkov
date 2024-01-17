@@ -120,7 +120,7 @@ public class GeneralLogParsingTests : IDisposable
 
     [Theory]
     [MemberData(nameof(EntryParseData))]
-    public void Test1(string input, LogEntry expectedOutput)
+    public void TestSingleLogEntryParsing(string input, LogEntry expectedOutput)
     {
         LogParser logParser = new();
         logParser.ParseLogEntry(input).Should().Be(expectedOutput);
