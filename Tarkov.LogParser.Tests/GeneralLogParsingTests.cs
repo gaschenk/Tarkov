@@ -1,7 +1,5 @@
 // Copyright (c) 2023 Timothy Schenk. Subject to the GNU AGPL Version 3 License.
 
-using System.Globalization;
-
 namespace Tarkov.LogParser.Tests;
 
 public class GeneralLogParsingTests : IDisposable
@@ -54,7 +52,7 @@ public class GeneralLogParsingTests : IDisposable
                        "EnvironmentUiType": "WoodEnvironmentUiType"
                      }
                      """,
-                new LogEntry(new DateTime(2023, 12, 29, 23, 07, 43, 98, new CultureInfo("de-de").Calendar),
+                new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 43, 98, TimeSpan.FromHours(1)),
                     "0.14.0.0.28375",
                     "Info", "application",
                     """
@@ -86,31 +84,31 @@ public class GeneralLogParsingTests : IDisposable
 
             data.Add(
                 "2023-12-29 23:07:34.340 +01:00|0.14.0.0.28375|Info|application|Application awaken, updateQueue:'Update' ",
-                new LogEntry(new DateTime(2023, 12, 29, 23, 07, 34, 340, new CultureInfo("de-de").Calendar),
+                new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 34, 340, TimeSpan.FromHours(1)),
                     "0.14.0.0.28375",
                     "Info", "application", "Application awaken, updateQueue:'Update'"));
 
             data.Add(
                 "2023-12-29 23:07:34.349 +01:00|0.14.0.0.28375|Info|application|Assert.raiseExceptions:'True' ",
-                new LogEntry(new DateTime(2023, 12, 29, 23, 07, 34, 349, new CultureInfo("de-de").Calendar),
+                new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 34, 349, TimeSpan.FromHours(1)),
                     "0.14.0.0.28375",
                     "Info", "application", "Assert.raiseExceptions:'True'"));
 
             data.Add(
                 "2023-12-29 23:07:34.349 +01:00|0.14.0.0.28375|Info|application|Application obfuscation succeed. ",
-                new LogEntry(new DateTime(2023, 12, 29, 23, 07, 34, 349, new CultureInfo("de-de").Calendar),
+                new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 34, 349, TimeSpan.FromHours(1)),
                     "0.14.0.0.28375",
                     "Info", "application", "Application obfuscation succeed."));
 
             data.Add(
                 "2023-12-29 23:07:36.196 +01:00|0.14.0.0.28375|Info|application|driveType:SSD swapDriveType:SSD ",
-                new LogEntry(new DateTime(2023, 12, 29, 23, 07, 36, 196, new CultureInfo("de-de").Calendar),
+                new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 36, 196, TimeSpan.FromHours(1)),
                     "0.14.0.0.28375",
                     "Info", "application", "driveType:SSD swapDriveType:SSD"));
 
             data.Add(
                 "2023-12-29 23:07:38.100 +01:00|0.14.0.0.28375|Info|application|NVIDIA Reflex is available on this machine, Status: NvReflex_OK. ",
-                new LogEntry(new DateTime(2023, 12, 29, 23, 07, 38, 100, new CultureInfo("de-de").Calendar),
+                new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 38, 100, TimeSpan.FromHours(1)),
                     "0.14.0.0.28375",
                     "Info", "application", "NVIDIA Reflex is available on this machine, Status: NvReflex_OK."));
 

@@ -3,7 +3,7 @@
 namespace Tarkov.LogParser;
 
 public record LogEntry(
-    DateTime TimeStamp,
+    DateTimeOffset TimeStamp,
     string ClientVersion,
     string LogLevel,
     string SectionName,

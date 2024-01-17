@@ -54,7 +54,7 @@ public class LogParser
         var parts = logEntry.Split('|', 5);
 
         return new LogEntry(
-            DateTime.ParseExact(parts[0], "yyyy-MM-dd HH:mm:ss.fff zzz", _cultureInfo),
+            DateTimeOffset.ParseExact(parts[0], "yyyy-MM-dd HH:mm:ss.fff zzz", _cultureInfo),
             parts[1],
             parts[2],
             parts[3],
