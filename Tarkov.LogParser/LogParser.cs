@@ -1,11 +1,14 @@
 // Copyright (c) 2023 Timothy Schenk. Subject to the GNU AGPL Version 3 License.
 
+using System.Globalization;
 using System.Text;
 
 namespace Tarkov.LogParser;
 
 public class LogParser
 {
+
+    private readonly CultureInfo _cultureInfo = CultureInfo.GetCultureInfo("de-de");
     public IEnumerable<LogEntry> ParseLogEntries(string multiLineLogEntries)
     {
         using var reader =
@@ -51,7 +54,7 @@ public class LogParser
         var parts = logEntry.Split('|', 5);
 
         return new LogEntry(
-            DateTime.Parse(parts[0]),
+            DateTime.Parse(parts[0], _cultureInfo),
             parts[1],
             parts[2],
             parts[3],
