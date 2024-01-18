@@ -7,8 +7,8 @@ namespace Tarkov.LogParser;
 
 public class LogParser
 {
-
     private readonly CultureInfo _cultureInfo = CultureInfo.GetCultureInfo("de-de");
+
     public IEnumerable<LogEntry> ParseLogEntries(string multiLineLogEntries)
     {
         using var reader =
@@ -53,11 +53,25 @@ public class LogParser
     {
         var parts = logEntry.Split('|', 5);
 
+        var isSimple = !ClientVersion.TryParse(parts[1], out var clientVersion);
+
+        var logLevelEnumName = Enum.GetNames(typeof(LogLevel))
+            .First(e => e.Equals(isSimple ? parts[1] : parts[2], StringComparison.CurrentCultureIgnoreCase));
+        var logLevel = Enum.Parse<LogLevel>(logLevelEnumName);
+
+        var logTargetEnumName = Enum.GetNames(typeof(LogTarget)).FirstOrDefault(e =>
+        {
+            var value = (isSimple ? parts[2] : parts[3]).Replace("_", string.Empty).Replace("-", string.Empty);
+            return e.Equals(value,
+                StringComparison.CurrentCultureIgnoreCase);
+        });
+        var target = logTargetEnumName is not null ? Enum.Parse<LogTarget>(logTargetEnumName) : LogTarget.Unknown;
+
         return new LogEntry(
             DateTimeOffset.ParseExact(parts[0], "yyyy-MM-dd HH:mm:ss.fff zzz", _cultureInfo),
-            parts[1],
-            parts[2],
-            parts[3],
+            clientVersion,
+            logLevel,
+            target,
             parts.Length > 4 ? parts[4].Trim() : string.Empty,
             parts.Length > 4 && parts[4].Trim().Contains('\n'));
     }

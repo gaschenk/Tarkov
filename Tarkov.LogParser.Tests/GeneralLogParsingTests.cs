@@ -53,8 +53,8 @@ public class GeneralLogParsingTests : IDisposable
                      }
                      """,
                 new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 43, 98, TimeSpan.FromHours(1)),
-                    "0.14.0.0.28375",
-                    "Info", "application",
+                    ClientVersion.Parse("0.14.0.0.28375"),
+                    LogLevel.Info, LogTarget.Application,
                     """
                     Game settings:
                     {
@@ -85,32 +85,76 @@ public class GeneralLogParsingTests : IDisposable
             data.Add(
                 "2023-12-29 23:07:34.340 +01:00|0.14.0.0.28375|Info|application|Application awaken, updateQueue:'Update' ",
                 new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 34, 340, TimeSpan.FromHours(1)),
-                    "0.14.0.0.28375",
-                    "Info", "application", "Application awaken, updateQueue:'Update'"));
+                    ClientVersion.Parse("0.14.0.0.28375"),
+                    LogLevel.Info, LogTarget.Application, "Application awaken, updateQueue:'Update'"));
 
             data.Add(
                 "2023-12-29 23:07:34.349 +01:00|0.14.0.0.28375|Info|application|Assert.raiseExceptions:'True' ",
                 new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 34, 349, TimeSpan.FromHours(1)),
-                    "0.14.0.0.28375",
-                    "Info", "application", "Assert.raiseExceptions:'True'"));
+                    ClientVersion.Parse("0.14.0.0.28375"),
+                    LogLevel.Info, LogTarget.Application, "Assert.raiseExceptions:'True'"));
 
             data.Add(
                 "2023-12-29 23:07:34.349 +01:00|0.14.0.0.28375|Info|application|Application obfuscation succeed. ",
                 new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 34, 349, TimeSpan.FromHours(1)),
-                    "0.14.0.0.28375",
-                    "Info", "application", "Application obfuscation succeed."));
+                    ClientVersion.Parse("0.14.0.0.28375"),
+                    LogLevel.Info, LogTarget.Application, "Application obfuscation succeed."));
 
             data.Add(
                 "2023-12-29 23:07:36.196 +01:00|0.14.0.0.28375|Info|application|driveType:SSD swapDriveType:SSD ",
                 new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 36, 196, TimeSpan.FromHours(1)),
-                    "0.14.0.0.28375",
-                    "Info", "application", "driveType:SSD swapDriveType:SSD"));
+                    ClientVersion.Parse("0.14.0.0.28375"),
+                    LogLevel.Info, LogTarget.Application, "driveType:SSD swapDriveType:SSD"));
 
             data.Add(
                 "2023-12-29 23:07:38.100 +01:00|0.14.0.0.28375|Info|application|NVIDIA Reflex is available on this machine, Status: NvReflex_OK. ",
                 new LogEntry(new DateTimeOffset(2023, 12, 29, 23, 07, 38, 100, TimeSpan.FromHours(1)),
-                    "0.14.0.0.28375",
-                    "Info", "application", "NVIDIA Reflex is available on this machine, Status: NvReflex_OK."));
+                    ClientVersion.Parse("0.14.0.0.28375"),
+                    LogLevel.Info, LogTarget.Application,
+                    "NVIDIA Reflex is available on this machine, Status: NvReflex_OK."));
+
+            data.Add(
+                """
+                2024-01-14 10:22:05.846 +01:00|Info|push-notifications|Got notification | UserConfirmed
+                {
+                  "type": "userConfirmed",
+                  "eventId": "abcdef01234567890abcdef0",
+                  "profileid": "abcdef01234567890abcdef0",
+                  "profileToken": "abcdef01234567890abcdef012345678",
+                  "status": "Busy",
+                  "ip": "74.119.145.122",
+                  "port": 17003,
+                  "sid": "74.119.145.122-17003_PID_14.01.24_09.03.32",
+                  "version": "live",
+                  "location": "bigmap",
+                  "raidMode": "Online",
+                  "mode": "deathmatch",
+                  "shortId": "123A4B",
+                  "additional_info": []
+                }
+                """,
+                new LogEntry(new DateTimeOffset(2024, 1, 14, 10, 22, 5, 846, TimeSpan.FromHours(1)),
+                    null,
+                    LogLevel.Info, LogTarget.PushNotifications, """
+                                                                UserConfirmed
+                                                                {
+                                                                  "type": "userConfirmed",
+                                                                  "eventId": "abcdef01234567890abcdef0",
+                                                                  "profileid": "abcdef01234567890abcdef0",
+                                                                  "profileToken": "abcdef01234567890abcdef012345678",
+                                                                  "status": "Busy",
+                                                                  "ip": "74.119.145.122",
+                                                                  "port": 17003,
+                                                                  "sid": "74.119.145.122-17003_PID_14.01.24_09.03.32",
+                                                                  "version": "live",
+                                                                  "location": "bigmap",
+                                                                  "raidMode": "Online",
+                                                                  "mode": "deathmatch",
+                                                                  "shortId": "123A4B",
+                                                                  "additional_info": []
+                                                                }
+                                                                """,
+                    true));
 
             return data;
         }
@@ -121,7 +165,7 @@ public class GeneralLogParsingTests : IDisposable
     public void TestSingleLogEntryParsing(string input, LogEntry expectedOutput)
     {
         LogParser logParser = new();
-        logParser.ParseLogEntry(input).Should().Be(expectedOutput);
+        logParser.ParseLogEntry(input).Should().BeEquivalentTo(expectedOutput);
     }
 
     [Fact]
